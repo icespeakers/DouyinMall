@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.payment.dao.IPaymentDao">
+<!--    <resultMap id="orderMap" type="org.example.order.entity.OrderEntity">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="user_id" property="userId"/>-->
+<!--        <result column="user_currency" property="userCurrency"/>-->
+<!--        <result column="street_address" property="address.streetAddress"/>-->
+<!--        <result column="city" property="address.city"/>-->
+<!--        <result column="state" property="address.state"/>-->
+<!--        <result column="country" property="address.country"/>-->
+<!--        <result column="zip_code" property="address.zipCode"/>-->
+<!--        <result column="email" property="email"/>-->
+<!--        <result column="total_cost" property="totalCost"/>-->
+<!--        <result column="create_at" property="createAt"/>-->
+<!--    </resultMap>-->
+
+<!--    private int transactionId;-->
+<!--    private int orderId;-->
+<!--    private float amount;-->
+<!--    private int userId;-->
+<!--    private String credit_card_number;-->
+<!--    private int credit_card_cvv;-->
+<!--    private int credit_card_expiration_year;-->
+<!--    private int credit_card_expiration_month;-->
+<!--    <insert id="charge" useGeneratedKeys="true" keyProperty="transactionId" >-->
+<!--       insert into payments (order_id,amount,user_id,credit_card_number,credit_card_cvv,credit_card_exp_year,credit_card_exp_month)-->
+<!--       values (#{orderId}, #{amount},#{userId},#{creditCardNumber},#{creditCardCvv},#{creditCardExpirationYear},#{creditCardExpirationMonth})-->
+
+<!--    </insert>-->
+    <select id="checkCreditCardInfo" resultType="java.lang.Integer">
+        select id from checkouts
+        where user_id = #{userId} and credit_card_number = #{creditCardNumber} and credit_card_cvv = #{creditCardCvv} and credit_card_exp_year = #{creditCardExpirationYear} and credit_card_exp_month = #{creditCardExpirationMonth}
+    </select>
+
+    <select id="checkOrderInfo" resultType="java.lang.Integer">
+       select 1 from orders
+       where id = #{orderId} and user_id = #{userId} and total_cost = #{amount} and status=1
+    </select>
+    <update id="updateOrderInfo">
+        update orders set status = 2 where id = #{orderId}
+    </update>
+
+
+
+</mapper>

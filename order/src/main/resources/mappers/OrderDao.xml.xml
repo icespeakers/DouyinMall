@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.order.dao.IOrderDao">
+    <resultMap id="orderMap" type="org.example.order.entity.OrderEntity">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_currency" property="userCurrency"/>
+        <result column="street_address" property="address.streetAddress"/>
+        <result column="city" property="address.city"/>
+        <result column="state" property="address.state"/>
+        <result column="country" property="address.country"/>
+        <result column="zip_code" property="address.zipCode"/>
+        <result column="email" property="email"/>
+        <result column="total_cost" property="totalCost"/>
+        <result column="create_at" property="createAt"/>
+    </resultMap>
+    <resultMap id="orderItemMap" type="org.example.order.entity.OrderItemEntity">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="cost" property="cost"/>
+
+        <!-- 映射嵌套类 CartItem -->
+        <association property="item" javaType="org.example.order.entity.OrderItemEntity$CartItem">
+            <result column="product_id" property="productId"/>
+            <result column="quantity" property="quantity"/>
+        </association>
+<!--        <result column="product_id" property="item.productId"/>-->
+<!--        <result column="quantity" property="item.quantity"/>-->
+
+
+
+
+    </resultMap>
+
+    <insert id="placeOrder" useGeneratedKeys="true" keyProperty="id" >
+        insert into orders (user_id, user_currency, street_address, city, state, country, zip_code, email, total_cost)
+        values (#{userId}, #{userCurrency}, #{address.streetAddress}, #{address.city}, #{address.state},#{address.country},#{address.zipCode},#{email},#{totalCost})
+
+    </insert>
+    <insert id="insertOrderItem">
+            insert into order_cart_items
+            (order_id, product_id, quantity,cost)
+            values (#{orderId}, #{orderItem.item.productId}, #{orderItem.item.quantity},#{orderItem.cost})
+    </insert>
+    <select id="listOrder" resultMap="orderMap">
+        select id, user_id, user_currency, street_address, city, state, country, zip_code, email, total_cost
+        from orders
+        where user_id = #{userId}
+    </select>
+    <select id="listOrderItem" resultMap="orderItemMap">
+        select id,order_id,cost,product_id, quantity
+        from order_cart_items
+        where order_id = #{orderId}
+    </select>
+    <select id="checkOrderPaid" resultType="java.lang.Integer">
+            select status from orders
+            where user_id = #{userId} and id = #{orderId}
+    </select>
+    <update id="markOrderPaid">
+            update orders set status = 1
+            where user_id = #{userId} and id = #{orderId}
+
+    </update>
+
+
+</mapper>

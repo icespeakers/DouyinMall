@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.product.dao.IProductDao">
+    <resultMap id="dataMap" type="org.example.product.entity.Product">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="picture" property="picture"/>
+        <result column="price" property="price"/>
+<!--        <result column="categories" property="categories"/>-->
+
+    </resultMap>
+
+    <select id="listProducts" resultMap="dataMap">
+        select id,name,description,picture,price
+        from product
+        where id in (select pc.product_id from(select product_id from product_categories
+                     where category=#{categoryName}
+                        LIMIT #{pageSize} OFFSET #{pageOffset}) as pc)
+
+    </select>
+    <select id="getProduct" resultMap="dataMap">
+        select id,name,description,picture,price from product
+        where id=#{id}
+    </select>
+    <select id="searchProducts" resultMap="dataMap">
+        ${sql}
+    </select>
+</mapper>
