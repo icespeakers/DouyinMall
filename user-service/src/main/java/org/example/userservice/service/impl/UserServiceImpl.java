@@ -1,6 +1,7 @@
 package org.example.userservice.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.example.userservice.dao.IUserDao;
 
@@ -10,7 +11,10 @@ import org.example.userservice.proto.RegisterReq;
 import org.example.userservice.proto.RegisterResp;
 import org.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController()
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
             log.error("邮箱已存在!");
             throw new IllegalArgumentException("邮箱已存在!");
         }
-        userId = userDao.insert(request.getEmail(), request.getPassword());
+        userId = userDao.insert(request.getEmail(), MD5(request.getPassword()));
         return RegisterResp.newBuilder().setUserId(userId).build();
 
     }
@@ -49,10 +53,18 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("请输入密码!");
         }
 
-        Integer userId = userDao.queryUserByEmailAndPassword(request.getEmail(), request.getPassword());
+        Integer userId = userDao.queryUserByEmailAndPassword(request.getEmail(), MD5(request.getPassword()));
         if(userId==null){
             throw new IllegalArgumentException("该邮箱未注册!");
         }
         return LoginResp.newBuilder().setUserId(userId).build();
     }
+
+    public static String MD5(String key){
+        if(StringUtils.isBlank(key)){
+            return null;
+        }
+        return DigestUtils.md5DigestAsHex(key.getBytes());
+    }
+
 }

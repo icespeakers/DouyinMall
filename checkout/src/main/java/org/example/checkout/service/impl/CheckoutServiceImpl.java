@@ -2,6 +2,7 @@ package org.example.checkout.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.example.checkout.dao.ICheckoutDao;
 import org.example.checkout.entity.CheckoutEntity;
@@ -33,10 +34,25 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Override
     public CheckoutResp checkout(CheckoutReq req) {
         int userId = req.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         String email = req.getEmail();
+        if(StringUtils.isBlank(email)||email.length()==0){
+            throw new IllegalArgumentException("email is null");
+        }
         String firstname = req.getFirstname();
+        if(StringUtils.isBlank(firstname)||firstname.length()==0){
+            throw new IllegalArgumentException("firstname is null");
+        }
         String lastname = req.getLastname();
+        if(StringUtils.isBlank(lastname)||lastname.length()==0){
+            throw new IllegalArgumentException("lastname is null");
+        }
         Address address = req.getAddress();
+        if(address==null){
+            throw new IllegalArgumentException("address is null");
+        }
         CreditCardInfo creditCard = req.getCreditCard();
         CheckoutEntity checkout = CheckoutEntity.builder().userId(userId).email(email).firstName(firstname).lastName(lastname).
                 streetAddress(address.getStreetAddress()).city(address.getCity()).state(address.getState()).

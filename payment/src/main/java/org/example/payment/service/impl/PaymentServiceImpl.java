@@ -33,9 +33,21 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public ChargeResp charge(ChargeReq chargeReq) {
         float amount = chargeReq.getAmount();
+        if(amount==0){
+            throw new IllegalArgumentException("amount is null");
+        }
         Integer orderId = Integer.valueOf(chargeReq.getOrderId());
+        if(orderId==null){
+            throw new IllegalArgumentException("orderId is null");
+        }
         int userId = chargeReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         CreditCardInfo creditCard = chargeReq.getCreditCard();
+        if(creditCard==null){
+            throw new IllegalArgumentException("creditCard is null");
+        }
         PaymentEntity payment = PaymentEntity.builder().userId(userId).orderId(orderId).amount(amount).
                 creditCardNumber(creditCard.getCreditCardNumber()).
                 creditCardCvv(creditCard.getCreditCardCvv()).

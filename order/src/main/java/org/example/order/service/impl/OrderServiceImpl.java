@@ -1,6 +1,7 @@
 package org.example.order.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.example.cart.dao.ICartDao;
 import org.example.order.dao.IOrderDao;
@@ -39,10 +40,25 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public PlaceOrderResp placeOrder(PlaceOrderReq placeOrderReq) {
         Address address = placeOrderReq.getAddress();
+        if (address==null){
+            throw new IllegalArgumentException("address is null");
+        }
         String email = placeOrderReq.getEmail();
+        if(StringUtils.isBlank(email)||email.length()==0){
+            throw new IllegalArgumentException("email is null");
+        }
         int userId = placeOrderReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         String userCurrency = placeOrderReq.getUserCurrency();
+        if(StringUtils.isBlank(userCurrency)||userCurrency.length()==0){
+            throw new IllegalArgumentException("userCurrency is null");
+        }
         List<OrderItem> orderItemsList = placeOrderReq.getOrderItemsList();
+        if(orderItemsList==null||orderItemsList.size()==0){
+            throw new IllegalArgumentException("orderItemsList is null");
+        }
         float totalCost=0;
         Order.Builder builder = Order.newBuilder();
         List<CartItem> items=new ArrayList<>();
@@ -79,6 +95,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public ListOrderResp listOrder(ListOrderReq listOrderReq) {
         int userId = listOrderReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         List<OrderEntity> orderEntities = orderDao.listOrder(userId);
         List<Order> orders=new ArrayList<>();
         for(OrderEntity orderEntity : orderEntities){
@@ -95,7 +114,13 @@ public class OrderServiceImpl implements OrderService {
 //    感觉发事件+定时任务查表更合适
     public MarkOrderPaidResp markOrderPaid(MarkOrderPaidReq markOrderPaidReq) {
         String orderId = markOrderPaidReq.getOrderId();
+        if(StringUtils.isBlank(orderId)||orderId.length()==0){
+            throw new IllegalArgumentException("orderId is null");
+        }
         int userId = markOrderPaidReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         Integer i = orderDao.checkOrderPaid(userId, Integer.parseInt(orderId));
         if(i==null){
             log.info("订单不存在");

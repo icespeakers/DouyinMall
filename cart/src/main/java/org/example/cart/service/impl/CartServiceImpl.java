@@ -27,9 +27,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public AddItemResp addItem(AddItemReq addItemReq) {
         int userId= addItemReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         CartItem item = addItemReq.getItem();
+        if (item==null){
+            throw new IllegalArgumentException("item is null");
+        }
         int productId = item.getProductId();
         int quantity = item.getQuantity();
+
         Integer checkQuantity = cartDao.checkProduct(userId,productId);
         if(checkQuantity==null||checkQuantity<=0){
             log.info("add product to cart");
@@ -41,10 +48,13 @@ public class CartServiceImpl implements CartService {
         return AddItemResp.newBuilder().build();
 
     }
-    @RequestMapping(value = "getcart", method = RequestMethod.POST)
+    @RequestMapping(value = "getCart", method = RequestMethod.POST)
     @Override
     public GetCartResp getCart(GetCartReq getCartReq) {
         int userId = getCartReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
         List<Product> products = cartDao.getCart(userId);
         GetCartResp.Builder builder = GetCartResp.newBuilder();
         Cart.Builder cartBuilder=Cart.newBuilder();
@@ -56,7 +66,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public EmptyCartResp emptyCart(EmptyCartReq emptyCartReq) {
-        cartDao.emptyCart(emptyCartReq.getUserId());
+        int userId = emptyCartReq.getUserId();
+        if(userId==0){
+            throw new IllegalArgumentException("userId is null");
+        }
+        cartDao.emptyCart(userId);
+
         return EmptyCartResp.newBuilder().build();
 
     }
