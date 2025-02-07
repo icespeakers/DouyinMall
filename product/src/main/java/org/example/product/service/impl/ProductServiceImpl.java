@@ -7,7 +7,7 @@ import org.example.product.dao.IProductDao;
 import org.example.product.entity.Product;
 import org.example.product.proto.*;
 import org.example.product.service.ProductService;
-import org.example.userservice.dao.IUserDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
