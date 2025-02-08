@@ -26,7 +26,7 @@ public class ApiTest {
 //    @Test
 //    public void test_rpc_register() {
 //        RegisterReq req = RegisterReq.newBuilder()
-//                .setEmail("testuser")
+//                .setEmail("12@qq.com")
 //                .setPassword("123456")
 //                .setConfirmPassword("123456")
 //                .build();
@@ -41,7 +41,7 @@ public class ApiTest {
     @Test
     public void test_rpc_login() {
         LoginReq req = LoginReq.newBuilder()
-                .setEmail("1@qq.com")
+                .setEmail("12@qq.com")
                 .setPassword("123456")
                 .build();
         // 调用 Dubbo 服务

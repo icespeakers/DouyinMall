@@ -6,9 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.order.proto.*;
 import org.example.order.service.OrderService;
-import org.example.product.proto.ListProductsReq;
-import org.example.product.proto.ListProductsResp;
-import org.example.product.proto.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,9 +41,10 @@ public class OrderServiceTest {
     @Test
     public void test_rpc_listOrders() {
         ListOrderReq req = ListOrderReq.newBuilder().setUserId(1).build();
+        StpUtil.login(1);
         ListOrderResp listOrderResp = orderService.listOrder(req);
         // 输出结果
-        StpUtil.login(1);
+
         for(Order order : listOrderResp.getOrdersList()){
             log.info("orderId:{}",JSON.toJSONString(order.getOrderId()));
             log.info("getEmail:{}",JSON.toJSONString(order.getEmail()));

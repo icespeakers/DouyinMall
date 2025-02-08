@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
         Integer userId = userDao.queryUserByEmailAndPassword(request.getEmail(), MD5(request.getPassword()));
         if(userId==null){
-            throw new IllegalArgumentException("该邮箱未注册!");
+            throw new IllegalArgumentException("登录失败!");
         }
         return LoginResp.newBuilder().setUserId(userId).build();
     }
