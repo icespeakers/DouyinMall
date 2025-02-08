@@ -29,9 +29,9 @@ public class CartServiceImpl implements CartService {
     public AddItemResp addItem(AddItemReq addItemReq) {
         int userId= addItemReq.getUserId();
         Object loginId = StpUtil.getLoginId();
-        log.info("userId:{} loginId:{}",userId,loginId);
-        if(userId==0){
-            throw new IllegalArgumentException("userId is null");
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
         }
         CartItem item = addItemReq.getItem();
         if (item==null){
@@ -55,8 +55,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public GetCartResp getCart(GetCartReq getCartReq) {
         int userId = getCartReq.getUserId();
+//        StpUtil.login(userId);
         Object loginId = StpUtil.getLoginId();
-        log.info("userId:{} loginId:{}",userId,loginId);
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
+        }
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
@@ -72,6 +76,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public EmptyCartResp emptyCart(EmptyCartReq emptyCartReq) {
         int userId = emptyCartReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
+        }
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }

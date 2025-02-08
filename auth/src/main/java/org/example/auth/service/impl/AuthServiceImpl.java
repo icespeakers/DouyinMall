@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService  {
     @Override
     public VerifyResp VerifyTokenByRPC(VerifyTokenReq verifyTokenReq) {
         String token = verifyTokenReq.getToken();
-        if(StringUtils.isBlank(token)||token.length()==0){
+        if(StringUtils.isBlank(token)||token.length()==0||StpUtil.getLoginId()==null){
             throw new IllegalArgumentException("token is null");
         }
         Integer count = authDao.verifyToken(token);

@@ -1,5 +1,6 @@
 package org.example.checkout;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.checkout.proto.Address;
@@ -26,6 +27,7 @@ public class CheckServiceTest {
                 setCreditCardExpirationMonth(10).setCreditCardExpirationYear(2025).build();
         CheckoutReq req = CheckoutReq.newBuilder().setUserId(1).setAddress(address).setEmail("testuser").setCreditCard(cardInfo).
                 setFirstname("二").setLastname("王").build();
+        StpUtil.login(1);
         CheckoutResp checkout = checkoutService.checkout(req);
         log.info("success");
         log.info("transactionId:{},orderId:{}",checkout.getTransactionId());

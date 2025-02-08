@@ -1,5 +1,6 @@
 package org.example.payment;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.example.payment.proto.ChargeReq;
@@ -23,7 +24,7 @@ public class PaymentServiceTest {
         ChargeReq req = ChargeReq.newBuilder().setOrderId("10").setUserId(1).setAmount(25).
                 setCreditCard(CreditCardInfo.newBuilder().setCreditCardNumber("加密后").setCreditCardCvv(1246).
                         setCreditCardExpirationMonth(10).setCreditCardExpirationYear(2025).build()).build();
-
+        StpUtil.login(1);
         ChargeResp resp = paymentService.charge(req);
         String transactionId = resp.getTransactionId();
         log.info("transactionId:{}",transactionId);

@@ -1,5 +1,6 @@
 package org.example.order.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -48,6 +49,11 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("email is null");
         }
         int userId = placeOrderReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
+        }
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
@@ -95,6 +101,11 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public ListOrderResp listOrder(ListOrderReq listOrderReq) {
         int userId = listOrderReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
+        }
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
@@ -118,6 +129,11 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("orderId is null");
         }
         int userId = markOrderPaidReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        if(userId!=Integer.valueOf(loginId.toString())){
+            log.info("userId:{} loginId:{}",userId,loginId);
+            throw new IllegalArgumentException("userId is not loginId");
+        }
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
