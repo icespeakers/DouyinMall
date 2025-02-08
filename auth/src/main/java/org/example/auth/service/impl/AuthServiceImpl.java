@@ -1,5 +1,6 @@
 package org.example.auth.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -35,8 +36,10 @@ public class AuthServiceImpl implements AuthService  {
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
-        String salt= generateUUID();
-        String token = GenerateToken(String.valueOf(userId)+salt);
+//        String salt= generateUUID();
+//        String token = GenerateToken(String.valueOf(userId)+salt);
+        StpUtil.login(userId);
+        String token = StpUtil.getTokenValue();
         authDao.deliverToken(userId,token);
         DeliveryResp resp = DeliveryResp.newBuilder().setToken(token).build();
         return resp;
@@ -53,13 +56,5 @@ public class AuthServiceImpl implements AuthService  {
 
     }
 
-    public static String GenerateToken(String key){
-        if(StringUtils.isBlank(key)){
-            return null;
-        }
-        return DigestUtils.md5DigestAsHex(key.getBytes());
-    }
-    public static String generateUUID(){
-        return UUID.randomUUID().toString().replaceAll("-","");
-    }
+
 }

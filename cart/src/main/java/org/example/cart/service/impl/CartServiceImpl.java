@@ -1,5 +1,6 @@
 package org.example.cart.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.auth.v1alpha1.Ca;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -27,6 +28,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public AddItemResp addItem(AddItemReq addItemReq) {
         int userId= addItemReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        log.info("userId:{} loginId:{}",userId,loginId);
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }
@@ -52,6 +55,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public GetCartResp getCart(GetCartReq getCartReq) {
         int userId = getCartReq.getUserId();
+        Object loginId = StpUtil.getLoginId();
+        log.info("userId:{} loginId:{}",userId,loginId);
         if(userId==0){
             throw new IllegalArgumentException("userId is null");
         }

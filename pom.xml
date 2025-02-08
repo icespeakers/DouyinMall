@@ -39,17 +39,6 @@
             <version>2.2.2</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-gateway</artifactId>-->
-<!--            <version>${spring-cloud-ali}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-openfeign</artifactId>-->
-<!--            <version>${spring-cloud.version}</version>-->
-<!--        </dependency>-->
-
 
         <dependency>
             <groupId>com.mysql</groupId>
@@ -92,22 +81,6 @@
         </dependency>
 
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.dubbo.extensions</groupId>-->
-        <!--            <artifactId>dubbo-serialization-protobuf</artifactId>-->
-        <!--            <version>3.2.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.dubbo</groupId>-->
-        <!--            <artifactId>dubbo-metadata-definition-protobuf</artifactId>-->
-        <!--            <version>3.3.1</version>-->
-        <!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo-serialization-protobuf-json -->
-        <!--        <dependency>-->
-        <!--        <groupId>org.apache.dubbo</groupId>-->
-        <!--        <artifactId>dubbo-serialization-protobuf-json</artifactId>-->
-        <!--        <version>2.7.4.1</version>-->
-        <!--    </dependency>-->
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -142,16 +115,59 @@
             <version>3.21.10</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-aop</artifactId>-->
+<!--            <version>3.3.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-web</artifactId>-->
+<!--            <version>3.3.3</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/cn.dev33/sa-token-spring-boot-starter -->
+        <!-- Sa-Token 权限认证（Reactor响应式集成），在线文档：https://sa-token.cc -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-            <version>3.3.3</version>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+            <version>1.40.0</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-spring-boot-starter</artifactId>-->
+<!--            <version>1.40.0</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-web</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+            <version>1.40.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.3.3</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.11.1</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.26.0</version>
+
+        </dependency>
+
 
 
 
@@ -206,6 +222,16 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>gateway-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>satoken</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-dependencies</artifactId>
             <version>${spring-cloud.version}</version>
@@ -226,6 +252,8 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+
+
 
 
 
