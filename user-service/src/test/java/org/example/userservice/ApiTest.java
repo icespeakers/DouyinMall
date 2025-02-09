@@ -1,14 +1,10 @@
 package org.example.userservice;
 
 
-import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 
-import org.example.userservice.proto.LoginReq;
-import org.example.userservice.proto.LoginResp;
-import org.example.userservice.proto.RegisterReq;
-import org.example.userservice.proto.RegisterResp;
+import org.example.userservice.proto.*;
 import org.example.userservice.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +47,37 @@ public class ApiTest {
 
         log.info("Success login: " + resp.getUserId());
     //        log.info(JSON.toJSONString(resp));
+
+    }
+    @Test
+    public void test_rpc_logout() {
+        LogoutReq req = LogoutReq.newBuilder().setUserId(5).build();
+        // 调用 Dubbo 服务
+        LogoutResp resp = userService.logout(req);
+        // 输出结果
+
+        log.info("Success logout: " + resp.getRes());
+        //        log.info(JSON.toJSONString(resp));
+
+    }
+    @Test
+    public void test_rpc_addBlackList() {
+        AddBlackListReq req = AddBlackListReq.newBuilder().setUserId(5).build();
+        // 调用 Dubbo 服务
+        AddBlackListResp resp = userService.addBlackList(req);
+        // 输出结果
+        log.info("Success logout: " + resp.getRes());
+        //        log.info(JSON.toJSONString(resp));
+
+    }
+    @Test
+    public void test_rpc_delete() {
+        DeleteReq req = DeleteReq.newBuilder().setUserId(2).build();
+        // 调用 Dubbo 服务
+        DeleteResp resp = userService.delete(req);
+        // 输出结果
+        log.info("Success logout: " + resp.getRes());
+        //        log.info(JSON.toJSONString(resp));
 
     }
 

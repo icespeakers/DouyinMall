@@ -1,12 +1,12 @@
 package org.example.userservice.service;
 
 
-import org.example.userservice.proto.LoginReq;
-import org.example.userservice.proto.LoginResp;
-import org.example.userservice.proto.RegisterReq;
-import org.example.userservice.proto.RegisterResp;
+import org.example.userservice.proto.*;
 
 public interface UserService {
     RegisterResp register(RegisterReq request);
     LoginResp login(LoginReq request);
+    DeleteResp delete (DeleteReq request);
+    LogoutResp logout(LogoutReq request);
+    AddBlackListResp addBlackList(AddBlackListReq request);
 }

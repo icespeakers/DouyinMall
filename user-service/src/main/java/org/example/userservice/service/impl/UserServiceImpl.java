@@ -1,20 +1,17 @@
 package org.example.userservice.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.example.userservice.dao.IUserDao;
 
-import org.example.userservice.proto.LoginReq;
-import org.example.userservice.proto.LoginResp;
-import org.example.userservice.proto.RegisterReq;
-import org.example.userservice.proto.RegisterResp;
+import org.example.userservice.proto.*;
 import org.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController()
@@ -43,8 +40,9 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("邮箱已存在!");
         }
         userId = userDao.insert(request.getEmail(), MD5(request.getPassword()));
-        return RegisterResp.newBuilder().setUserId(userId).build();
+//        return RegisterResp.newBuilder().setUserId(userId).build();
 
+        return RegisterResp.newBuilder().setUserId(userId).build();
     }
     @RequestMapping(value = "login", method = RequestMethod.POST)
     @Override
@@ -58,6 +56,53 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("登录失败!");
         }
         return LoginResp.newBuilder().setUserId(userId).build();
+    }
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    @Override
+    @Transactional
+    public DeleteResp delete(DeleteReq request) {
+        try {
+            int userId = request.getUserId();
+            userDao.delete(userId);
+            StpUtil.logout(userId);
+        }catch (Exception e){
+            log.error("登出失败: {}", e.getMessage());
+            return DeleteResp.newBuilder().setRes(false).build();
+        }finally {
+
+            return DeleteResp.newBuilder().setRes(true).build();
+        }
+    }
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
+    @Override
+    public LogoutResp logout(LogoutReq request) {
+        int userId = request.getUserId();
+        try {
+            StpUtil.logout(userId);
+        }catch (Exception e){
+            log.error("登出失败: {}", e.getMessage());
+            return LogoutResp.newBuilder().setRes(false).build();
+        }finally {
+
+            return LogoutResp.newBuilder().setRes(true).build();
+        }
+
+    }
+    @RequestMapping(value = "addBlackList", method = RequestMethod.POST)
+    @Override
+    @Transactional
+    public AddBlackListResp addBlackList(AddBlackListReq request) {
+        try {
+            int userId = request.getUserId();
+            userDao.addBlackList(userId);
+            StpUtil.logout(userId);
+        }catch (Exception e){
+            log.error("登出失败: {}", e.getMessage());
+            return AddBlackListResp.newBuilder().setRes(false).build();
+        }finally {
+
+            return AddBlackListResp.newBuilder().setRes(true).build();
+        }
     }
 
     public static String MD5(String key){

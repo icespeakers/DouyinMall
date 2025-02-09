@@ -9,9 +9,15 @@
     </select>
     <select id="queryUserByEmailAndPassword" resultType="java.lang.Integer">
                 select id from user
-                where email = #{email} and password = #{password}
+                where email = #{email} and password = #{password} and status=0
     </select>
     <insert id="insert">
         insert into user(email, password) values (#{email}, #{password})
     </insert>
+    <update id="addBlackList">
+        update user set status = 1 where id = #{userId}
+    </update>
+    <update id="delete">
+        update user set status = 2 where id = #{userId}
+    </update>
 </mapper>

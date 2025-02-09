@@ -4,7 +4,7 @@ package User;
 
 //option go_package="/user";
 option java_multiple_files = true;
-option java_package = "org.example.userservice.docs.proto.User";
+option java_package = "org.example.userservice.proto";
 // 指定生成的 Java 包名
 option java_outer_classname = "UserProto";
 
@@ -30,4 +30,25 @@ message LoginReq {
 
 message LoginResp {
   int32 user_id = 1;
+}
+//删除
+message DeleteReq {
+  int32 user_id = 1;
+}
+message DeleteResp {
+  bool res= 1;
+}
+//登出
+message LogoutReq {
+  int32 user_id = 1;
+}
+message LogoutResp {
+  bool res= 1;
+}
+//黑名单
+message AddBlackListReq {
+  int32 user_id = 1;
+}
+message AddBlackListResp {
+  bool res= 1;
 }
