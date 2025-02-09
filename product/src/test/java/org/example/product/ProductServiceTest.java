@@ -22,7 +22,7 @@ public class ProductServiceTest {
         ListProductsReq req = ListProductsReq.newBuilder()
                 .setPage(1)
                 .setPageSize(2)
-                .setCategoryName("绿色")
+                .setCategoryName("水果")
                 .build();
         // 调用 Dubbo 服务
         ListProductsResp resp = productService.listProducts(req);
@@ -37,7 +37,7 @@ public class ProductServiceTest {
     public void test_rpc_getProduct() {
 
         GetProductReq req = GetProductReq.newBuilder()
-                .setId(1)
+                .setId(4)
                 .build();
         // 调用 Dubbo 服务
         GetProductResp resp = productService.getProduct(req);
