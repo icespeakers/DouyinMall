@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class CheckoutEntity {
     private int transactionId;
     private int userId;
-//    private int orderId;
+    //    private int orderId;
     private String firstName;
     private String lastName;
     private String email;

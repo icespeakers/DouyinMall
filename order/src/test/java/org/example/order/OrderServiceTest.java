@@ -20,6 +20,7 @@ import java.util.List;
 public class OrderServiceTest {
     @DubboReference(version = "1.0")
     private OrderService orderService;
+
     @Test
     public void test_rpc_placeOrder() {
         Address address = Address.newBuilder().setCity("北京").setStreetAddress("长安街").setState("北京").setCountry("中国").setZipCode(10001).build();
@@ -45,15 +46,15 @@ public class OrderServiceTest {
         ListOrderResp listOrderResp = orderService.listOrder(req);
         // 输出结果
 
-        for(Order order : listOrderResp.getOrdersList()){
-            log.info("orderId:{}",JSON.toJSONString(order.getOrderId()));
-            log.info("getEmail:{}",JSON.toJSONString(order.getEmail()));
-            log.info("getAddress:{}",JSON.toJSONString(order.getAddress().getCity()));
-            log.info("getCreatedAt:{}",JSON.toJSONString(order.getCreatedAt()));
-            log.info("getUserCurrency:{}",JSON.toJSONString(order.getUserCurrency()));
-            for(OrderItem orderItem : order.getOrderItemsList()){
-                log.info("getProductId:{}",JSON.toJSONString(orderItem.getItem().getProductId()));
-                log.info("getQuantity:{}",JSON.toJSONString(orderItem.getItem().getQuantity()));
+        for (Order order : listOrderResp.getOrdersList()) {
+            log.info("orderId:{}", JSON.toJSONString(order.getOrderId()));
+            log.info("getEmail:{}", JSON.toJSONString(order.getEmail()));
+            log.info("getAddress:{}", JSON.toJSONString(order.getAddress().getCity()));
+            log.info("getCreatedAt:{}", JSON.toJSONString(order.getCreatedAt()));
+            log.info("getUserCurrency:{}", JSON.toJSONString(order.getUserCurrency()));
+            for (OrderItem orderItem : order.getOrderItemsList()) {
+                log.info("getProductId:{}", JSON.toJSONString(orderItem.getItem().getProductId()));
+                log.info("getQuantity:{}", JSON.toJSONString(orderItem.getItem().getQuantity()));
             }
 
         }

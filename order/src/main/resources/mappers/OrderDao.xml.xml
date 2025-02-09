@@ -24,41 +24,53 @@
             <result column="product_id" property="productId"/>
             <result column="quantity" property="quantity"/>
         </association>
-<!--        <result column="product_id" property="item.productId"/>-->
-<!--        <result column="quantity" property="item.quantity"/>-->
-
-
+        <!--        <result column="product_id" property="item.productId"/>-->
+        <!--        <result column="quantity" property="item.quantity"/>-->
 
 
     </resultMap>
 
-    <insert id="placeOrder" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="placeOrder" useGeneratedKeys="true" keyProperty="id">
         insert into orders (user_id, user_currency, street_address, city, state, country, zip_code, email, total_cost)
-        values (#{userId}, #{userCurrency}, #{address.streetAddress}, #{address.city}, #{address.state},#{address.country},#{address.zipCode},#{email},#{totalCost})
+        values (#{userId}, #{userCurrency}, #{address.streetAddress}, #{address.city}, #{address.state},
+                #{address.country}, #{address.zipCode}, #{email}, #{totalCost})
 
     </insert>
     <insert id="insertOrderItem">
-            insert into order_cart_items
-            (order_id, product_id, quantity,cost)
-            values (#{orderId}, #{orderItem.item.productId}, #{orderItem.item.quantity},#{orderItem.cost})
+        insert into order_cart_items
+            (order_id, product_id, quantity, cost)
+        values (#{orderId}, #{orderItem.item.productId}, #{orderItem.item.quantity}, #{orderItem.cost})
     </insert>
     <select id="listOrder" resultMap="orderMap">
-        select id, user_id, user_currency, street_address, city, state, country, zip_code, email, total_cost
+        select id,
+               user_id,
+               user_currency,
+               street_address,
+               city,
+               state,
+               country,
+               zip_code,
+               email,
+               total_cost
         from orders
         where user_id = #{userId}
     </select>
     <select id="listOrderItem" resultMap="orderItemMap">
-        select id,order_id,cost,product_id, quantity
+        select id, order_id, cost, product_id, quantity
         from order_cart_items
         where order_id = #{orderId}
     </select>
     <select id="checkOrderPaid" resultType="java.lang.Integer">
-            select status from orders
-            where user_id = #{userId} and id = #{orderId}
+        select status
+        from orders
+        where user_id = #{userId}
+          and id = #{orderId}
     </select>
     <update id="markOrderPaid">
-            update orders set status = 1
-            where user_id = #{userId} and id = #{orderId}
+        update orders
+        set status = 1
+        where user_id = #{userId}
+          and id = #{orderId}
 
     </update>
 

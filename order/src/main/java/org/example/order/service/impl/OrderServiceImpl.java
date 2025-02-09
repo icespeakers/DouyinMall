@@ -36,42 +36,43 @@ public class OrderServiceImpl implements OrderService {
         this.cartDao = cartDao;
         this.orderDao = orderDao;
     }
+
     @RequestMapping(value = "placeOrder", method = RequestMethod.POST)
     @Override
     @Transactional
     public PlaceOrderResp placeOrder(PlaceOrderReq placeOrderReq) {
         Address address = placeOrderReq.getAddress();
-        if (address==null){
+        if (address == null) {
             throw new IllegalArgumentException("address is null");
         }
         String email = placeOrderReq.getEmail();
-        if(StringUtils.isBlank(email)||email.length()==0){
+        if (StringUtils.isBlank(email) || email.length() == 0) {
             throw new IllegalArgumentException("email is null");
         }
         int userId = placeOrderReq.getUserId();
         Object loginId = StpUtil.getLoginId();
-        if(userId!=Integer.valueOf(loginId.toString())){
-            log.info("userId:{} loginId:{}",userId,loginId);
+        if (userId != Integer.valueOf(loginId.toString())) {
+            log.info("userId:{} loginId:{}", userId, loginId);
             throw new IllegalArgumentException("userId is not loginId");
         }
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
         String userCurrency = placeOrderReq.getUserCurrency();
-        if(StringUtils.isBlank(userCurrency)||userCurrency.length()==0){
+        if (StringUtils.isBlank(userCurrency) || userCurrency.length() == 0) {
             throw new IllegalArgumentException("userCurrency is null");
         }
         List<OrderItem> orderItemsList = placeOrderReq.getOrderItemsList();
-        if(orderItemsList==null||orderItemsList.size()==0){
+        if (orderItemsList == null || orderItemsList.size() == 0) {
             throw new IllegalArgumentException("orderItemsList is null");
         }
-        float totalCost=0;
+        float totalCost = 0;
         Order.Builder builder = Order.newBuilder();
-        List<CartItem> items=new ArrayList<>();
-        for(OrderItem orderItem : orderItemsList){
+        List<CartItem> items = new ArrayList<>();
+        for (OrderItem orderItem : orderItemsList) {
             CartItem item = orderItem.getItem();
             float cost = orderItem.getCost();
-            totalCost+=cost;
+            totalCost += cost;
             items.add(item);
 
         }
@@ -82,36 +83,36 @@ public class OrderServiceImpl implements OrderService {
         orderDao.placeOrder(order);
 
         int Orderid = order.getId();
-        for(OrderItem orderItem : orderItemsList){
+        for (OrderItem orderItem : orderItemsList) {
             CartItem item = orderItem.getItem();
             float cost = orderItem.getCost();
-            totalCost+=cost;
+            totalCost += cost;
             items.add(item);
-            orderDao.insertOrderItem(Orderid,orderItem);
+            orderDao.insertOrderItem(Orderid, orderItem);
         }
 //        Order order = builder.setOrderId(String.valueOf(orderId)).setAddress(address).setEmail(email).setUserId(userId)
 //                .setUserCurrency(userCurrency).setCreatedAt((int) System.currentTimeMillis()).build();
         return PlaceOrderResp.newBuilder().setOrder(OrderResult.newBuilder().setOrderId(String.valueOf(Orderid)).build()).build();
 
 
-
     }
+
     @RequestMapping(value = "listOrder", method = RequestMethod.POST)
     @Override
     @Transactional
     public ListOrderResp listOrder(ListOrderReq listOrderReq) {
         int userId = listOrderReq.getUserId();
         Object loginId = StpUtil.getLoginId();
-        if(userId!=Integer.valueOf(loginId.toString())){
-            log.info("userId:{} loginId:{}",userId,loginId);
+        if (userId != Integer.valueOf(loginId.toString())) {
+            log.info("userId:{} loginId:{}", userId, loginId);
             throw new IllegalArgumentException("userId is not loginId");
         }
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
         List<OrderEntity> orderEntities = orderDao.listOrder(userId);
-        List<Order> orders=new ArrayList<>();
-        for(OrderEntity orderEntity : orderEntities){
+        List<Order> orders = new ArrayList<>();
+        for (OrderEntity orderEntity : orderEntities) {
 
             orders.add(exchange(orderEntity));
 
@@ -120,44 +121,45 @@ public class OrderServiceImpl implements OrderService {
 
         return ListOrderResp.newBuilder().addAllOrders(orders).build();
     }
+
     @RequestMapping(value = "markOrderPaid", method = RequestMethod.POST)
     @Override
 //    感觉发事件+定时任务查表更合适
     public MarkOrderPaidResp markOrderPaid(MarkOrderPaidReq markOrderPaidReq) {
         String orderId = markOrderPaidReq.getOrderId();
-        if(StringUtils.isBlank(orderId)||orderId.length()==0){
+        if (StringUtils.isBlank(orderId) || orderId.length() == 0) {
             throw new IllegalArgumentException("orderId is null");
         }
         int userId = markOrderPaidReq.getUserId();
         Object loginId = StpUtil.getLoginId();
-        if(userId!=Integer.valueOf(loginId.toString())){
-            log.info("userId:{} loginId:{}",userId,loginId);
+        if (userId != Integer.valueOf(loginId.toString())) {
+            log.info("userId:{} loginId:{}", userId, loginId);
             throw new IllegalArgumentException("userId is not loginId");
         }
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
         Integer i = orderDao.checkOrderPaid(userId, Integer.parseInt(orderId));
-        if(i==null){
+        if (i == null) {
             log.info("订单不存在");
-        }
-        else if(i==0){
+        } else if (i == 0) {
             log.info("支付成功");
             orderDao.markOrderPaid(userId, Integer.parseInt(orderId));
-        }else{
+        } else {
             log.info("订单已支付");
         }
         return MarkOrderPaidResp.newBuilder().build();
     }
+
     @Transactional
-    public Order exchange(OrderEntity entity){
+    public Order exchange(OrderEntity entity) {
         AddressEntity address = entity.getAddress();
         Address address1 = Address.newBuilder().setStreetAddress(address.getStreetAddress()).setZipCode(address.getZipCode())
                 .setCountry(address.getCountry()).setCity(address.getCity()).setState(address.getState()).build();
         int orderID = entity.getId();
         List<OrderItemEntity> orderItems = orderDao.listOrderItem(orderID);
-        List<OrderItem> orderItemsList=new ArrayList<>();
-        for(OrderItemEntity orderItem : orderItems){
+        List<OrderItem> orderItemsList = new ArrayList<>();
+        for (OrderItemEntity orderItem : orderItems) {
             orderItemsList.add(OrderItem.newBuilder().setItem(CartItem.newBuilder()
                     .setProductId(orderItem.getItem().getProductId()).setQuantity(orderItem.getItem().getQuantity())
                     .build()).setCost(orderItem.getCost()).build());
@@ -165,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
         Order.Builder builder = Order.newBuilder().setOrderId(String.valueOf(entity.getId())).setUserCurrency(entity.getUserCurrency())
                 .setAddress(address1).setEmail(entity.getEmail()).setUserId(entity.getUserId()).
                 setCreatedAt(entity.getCreateAt());
-        orderItemsList.stream().forEach(item->builder.addOrderItems(item));
+        orderItemsList.stream().forEach(item -> builder.addOrderItems(item));
         return builder.build();
 
     }

@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class Product {
-    /** 自增ID */
+    /**
+     * 自增ID
+     */
     private Integer id;
     private String name;
     private String description;

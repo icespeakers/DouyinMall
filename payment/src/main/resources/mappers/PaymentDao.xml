@@ -3,18 +3,28 @@
 <mapper namespace="org.example.payment.dao.IPaymentDao">
 
     <select id="checkCreditCardInfo" resultType="java.lang.Integer">
-        select id from checkouts
-        where user_id = #{userId} and credit_card_number = #{creditCardNumber} and credit_card_cvv = #{creditCardCvv} and credit_card_exp_year = #{creditCardExpirationYear} and credit_card_exp_month = #{creditCardExpirationMonth}
+        select id
+        from checkouts
+        where user_id = #{userId}
+          and credit_card_number = #{creditCardNumber}
+          and credit_card_cvv = #{creditCardCvv}
+          and credit_card_exp_year = #{creditCardExpirationYear}
+          and credit_card_exp_month = #{creditCardExpirationMonth}
     </select>
 
     <select id="checkOrderInfo" resultType="java.lang.Integer">
-       select 1 from orders
-       where id = #{orderId} and user_id = #{userId} and total_cost = #{amount} and status=1
+        select 1
+        from orders
+        where id = #{orderId}
+          and user_id = #{userId}
+          and total_cost = #{amount}
+          and status = 1
     </select>
     <update id="updateOrderInfo">
-        update orders set status = 2 where id = #{orderId}
+        update orders
+        set status = 2
+        where id = #{orderId}
     </update>
-
 
 
 </mapper>

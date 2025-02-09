@@ -36,27 +36,27 @@ public class CheckoutServiceImpl implements CheckoutService {
     public CheckoutResp checkout(CheckoutReq req) {
         int userId = req.getUserId();
         Object loginId = StpUtil.getLoginId();
-        if(userId!=Integer.valueOf(loginId.toString())){
-            log.info("userId:{} loginId:{}",userId,loginId);
+        if (userId != Integer.valueOf(loginId.toString())) {
+            log.info("userId:{} loginId:{}", userId, loginId);
             throw new IllegalArgumentException("userId is not loginId");
         }
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
         String email = req.getEmail();
-        if(StringUtils.isBlank(email)||email.length()==0){
+        if (StringUtils.isBlank(email) || email.length() == 0) {
             throw new IllegalArgumentException("email is null");
         }
         String firstname = req.getFirstname();
-        if(StringUtils.isBlank(firstname)||firstname.length()==0){
+        if (StringUtils.isBlank(firstname) || firstname.length() == 0) {
             throw new IllegalArgumentException("firstname is null");
         }
         String lastname = req.getLastname();
-        if(StringUtils.isBlank(lastname)||lastname.length()==0){
+        if (StringUtils.isBlank(lastname) || lastname.length() == 0) {
             throw new IllegalArgumentException("lastname is null");
         }
         Address address = req.getAddress();
-        if(address==null){
+        if (address == null) {
             throw new IllegalArgumentException("address is null");
         }
         CreditCardInfo creditCard = req.getCreditCard();

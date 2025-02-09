@@ -34,24 +34,24 @@ public class PaymentServiceImpl implements PaymentService {
     @Transactional
     public ChargeResp charge(ChargeReq chargeReq) {
         float amount = chargeReq.getAmount();
-        if(amount==0){
+        if (amount == 0) {
             throw new IllegalArgumentException("amount is null");
         }
         Integer orderId = Integer.valueOf(chargeReq.getOrderId());
-        if(orderId==null){
+        if (orderId == null) {
             throw new IllegalArgumentException("orderId is null");
         }
         int userId = chargeReq.getUserId();
         Object loginId = StpUtil.getLoginId();
-        if(userId!=Integer.valueOf(loginId.toString())){
-            log.info("userId:{} loginId:{}",userId,loginId);
+        if (userId != Integer.valueOf(loginId.toString())) {
+            log.info("userId:{} loginId:{}", userId, loginId);
             throw new IllegalArgumentException("userId is not loginId");
         }
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
         CreditCardInfo creditCard = chargeReq.getCreditCard();
-        if(creditCard==null){
+        if (creditCard == null) {
             throw new IllegalArgumentException("creditCard is null");
         }
         PaymentEntity payment = PaymentEntity.builder().userId(userId).orderId(orderId).amount(amount).
@@ -60,11 +60,11 @@ public class PaymentServiceImpl implements PaymentService {
                 creditCardExpirationMonth(creditCard.getCreditCardExpirationMonth()).
                 creditCardExpirationYear(creditCard.getCreditCardExpirationYear()).build();
         Integer transactionId = paymentDao.checkCreditCardInfo(payment);
-        if (transactionId==null){
+        if (transactionId == null) {
             throw new NullPointerException("用户信息不正确");
         }
-        Integer status= paymentDao.checkOrderInfo(userId, orderId, amount);
-        if(status==null||status==0){
+        Integer status = paymentDao.checkOrderInfo(userId, orderId, amount);
+        if (status == null || status == 0) {
             throw new NullPointerException("订单信息不正确");
         }
         paymentDao.updateOrderInfo(orderId);

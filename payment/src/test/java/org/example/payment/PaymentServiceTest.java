@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class PaymentServiceTest {
     @DubboReference(version = "1.0")
     private PaymentService paymentService;
+
     @Test
 
     public void test_rpc_charge() {
@@ -27,7 +28,7 @@ public class PaymentServiceTest {
         StpUtil.login(1);
         ChargeResp resp = paymentService.charge(req);
         String transactionId = resp.getTransactionId();
-        log.info("transactionId:{}",transactionId);
+        log.info("transactionId:{}", transactionId);
 
 
     }

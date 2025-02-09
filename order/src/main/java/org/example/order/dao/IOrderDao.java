@@ -11,9 +11,14 @@ import java.util.List;
 @Mapper
 public interface IOrderDao {
     int placeOrder(OrderEntity order);
-    void insertOrderItem(@Param("orderId") int orderId,@Param("orderItem")OrderItem orderItem);
+
+    void insertOrderItem(@Param("orderId") int orderId, @Param("orderItem") OrderItem orderItem);
+
     List<OrderEntity> listOrder(@Param("userId") int userId);
+
     List<OrderItemEntity> listOrderItem(@Param("orderId") int orderId);
+
     Integer checkOrderPaid(@Param("userId") int userId, @Param("orderId") int orderId);
+
     void markOrderPaid(@Param("userId") int userId, @Param("orderId") int orderId);
 }

@@ -1,4 +1,4 @@
-syntax="proto3";
+syntax = "proto3";
 
 package User;
 
@@ -24,7 +24,7 @@ message RegisterResp {
 }
 
 message LoginReq {
-  string email= 1;
+  string email = 1;
   string password = 2;
 }
 
@@ -36,19 +36,19 @@ message DeleteReq {
   int32 user_id = 1;
 }
 message DeleteResp {
-  bool res= 1;
+  bool res = 1;
 }
 //登出
 message LogoutReq {
   int32 user_id = 1;
 }
 message LogoutResp {
-  bool res= 1;
+  bool res = 1;
 }
 //黑名单
 message AddBlackListReq {
   int32 user_id = 1;
 }
 message AddBlackListResp {
-  bool res= 1;
+  bool res = 1;
 }

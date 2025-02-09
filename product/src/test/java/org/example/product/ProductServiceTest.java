@@ -17,6 +17,7 @@ import java.util.List;
 public class ProductServiceTest {
     @DubboReference(version = "1.0")
     private org.example.product.service.ProductService productService;
+
     @Test
     public void test_rpc_listProducts() {
         ListProductsReq req = ListProductsReq.newBuilder()
@@ -45,6 +46,7 @@ public class ProductServiceTest {
         log.info(JSON.toJSONString(resp.getProduct().getName()));
 //        log.info(JSON.toJSONString(resp));
     }
+
     @Test
     public void test_rpc_searchProdcuts() {
 

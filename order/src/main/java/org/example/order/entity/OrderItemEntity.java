@@ -8,8 +8,9 @@ public class OrderItemEntity {
     int orderId;
     float cost;
     CartItem item;
+
     @Data
-    public static class CartItem{
+    public static class CartItem {
         int productId;
         int quantity;
     }

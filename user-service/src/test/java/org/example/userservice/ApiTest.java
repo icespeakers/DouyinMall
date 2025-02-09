@@ -19,10 +19,10 @@ public class ApiTest {
     @DubboReference(version = "1.0")
     private UserService userService;
 
-//    @Test
+    //    @Test
 //    public void test_rpc_register() {
 //        RegisterReq req = RegisterReq.newBuilder()
-//                .setEmail("12@qq.com")
+//                .setEmail("123456@qq.com")
 //                .setPassword("123456")
 //                .setConfirmPassword("123456")
 //                .build();
@@ -37,7 +37,7 @@ public class ApiTest {
     @Test
     public void test_rpc_login() {
         LoginReq req = LoginReq.newBuilder()
-                .setEmail("12@qq.com")
+                .setEmail("123456@qq.com")
                 .setPassword("123456")
                 .build();
         // 调用 Dubbo 服务
@@ -46,9 +46,10 @@ public class ApiTest {
         // 输出结果
 
         log.info("Success login: " + resp.getUserId());
-    //        log.info(JSON.toJSONString(resp));
+        //        log.info(JSON.toJSONString(resp));
 
     }
+
     @Test
     public void test_rpc_logout() {
         LogoutReq req = LogoutReq.newBuilder().setUserId(5).build();
@@ -60,6 +61,7 @@ public class ApiTest {
         //        log.info(JSON.toJSONString(resp));
 
     }
+
     @Test
     public void test_rpc_addBlackList() {
         AddBlackListReq req = AddBlackListReq.newBuilder().setUserId(5).build();
@@ -70,6 +72,7 @@ public class ApiTest {
         //        log.info(JSON.toJSONString(resp));
 
     }
+
     @Test
     public void test_rpc_delete() {
         DeleteReq req = DeleteReq.newBuilder().setUserId(2).build();

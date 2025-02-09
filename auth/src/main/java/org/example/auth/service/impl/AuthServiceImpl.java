@@ -25,7 +25,7 @@ import java.util.UUID;
 @CrossOrigin("${app.config.cross-origin}")
 @RequestMapping("/api/${app.config.api-version}/auth/")
 @DubboService(version = "1.0")
-public class AuthServiceImpl implements AuthService  {
+public class AuthServiceImpl implements AuthService {
     @Autowired
     private IAuthDao authDao;
 
@@ -33,27 +33,28 @@ public class AuthServiceImpl implements AuthService  {
     @Override
     public DeliveryResp DeliverTokenByRPC(DeliverTokenReq deliverTokenReq) {
         int userId = deliverTokenReq.getUserId();
-        if(userId==0){
+        if (userId == 0) {
             throw new IllegalArgumentException("userId is null");
         }
 //        String salt= generateUUID();
 //        String token = GenerateToken(String.valueOf(userId)+salt);
         StpUtil.login(userId);
         String token = StpUtil.getTokenValue();
-        authDao.deliverToken(userId,token);
+        authDao.deliverToken(userId, token);
         DeliveryResp resp = DeliveryResp.newBuilder().setToken(token).build();
         return resp;
     }
+
     @RequestMapping(value = "verifyTokenByRPC", method = RequestMethod.POST)
     @Override
     public VerifyResp VerifyTokenByRPC(VerifyTokenReq verifyTokenReq) {
         String token = verifyTokenReq.getToken();
 //        StpUtil.getLoginIdByToken()
-        if(StringUtils.isBlank(token)||token.length()==0){
+        if (StringUtils.isBlank(token) || token.length() == 0) {
             throw new IllegalArgumentException("token is null");
         }
         Integer count = authDao.verifyToken(token);
-        return count !=null ? VerifyResp.newBuilder().setRes(true).build() : VerifyResp.newBuilder().setRes(false).build();
+        return count != null ? VerifyResp.newBuilder().setRes(true).build() : VerifyResp.newBuilder().setRes(false).build();
 
     }
 

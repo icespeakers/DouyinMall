@@ -9,20 +9,33 @@
 
     </resultMap>
 
-    <insert id="addProductToCart" >
-        insert into cart (user_id,product_id,quantity,is_deleted) values (#{userId},#{productId},#{quantity},1)
+    <insert id="addProductToCart">
+        insert into cart (user_id, product_id, quantity, is_deleted)
+        values (#{userId}, #{productId}, #{quantity}, 1)
     </insert>
     <select id="checkProduct" resultType="java.lang.Integer">
-        select quantity from cart where user_id=#{userId} and product_id=#{productId} and is_deleted=1
+        select quantity
+        from cart
+        where user_id = #{userId}
+          and product_id = #{productId}
+          and is_deleted = 1
     </select>
-    <select id="updateProductToCart" >
-        update cart set quantity=#{quantity} where user_id=#{userId} and product_id=#{productId}
+    <select id="updateProductToCart">
+        update cart
+        set quantity=#{quantity}
+        where user_id = #{userId}
+          and product_id = #{productId}
     </select>
 
     <select id="getCart" resultMap="dataMap">
-        select id,product_id,quantity from cart where user_id=#{userId} and is_deleted=1
+        select id, product_id, quantity
+        from cart
+        where user_id = #{userId}
+          and is_deleted = 1
     </select>
-    <update id="emptyCart" >
-        update cart set is_deleted=0 where user_id=#{userId}
+    <update id="emptyCart">
+        update cart
+        set is_deleted=0
+        where user_id = #{userId}
     </update>
 </mapper>

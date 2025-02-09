@@ -7,5 +7,6 @@ import org.example.auth.proto.VerifyTokenReq;
 
 public interface AuthService {
     DeliveryResp DeliverTokenByRPC(DeliverTokenReq deliverTokenReq);
+
     VerifyResp VerifyTokenByRPC(VerifyTokenReq verifyTokenReq);
 }

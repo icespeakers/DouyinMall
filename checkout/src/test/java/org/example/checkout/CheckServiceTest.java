@@ -19,18 +19,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CheckServiceTest {
     @DubboReference(version = "1.0")
     private CheckoutService checkoutService;
+
     @Test
-    public void testCheckout(){
+    public void testCheckout() {
         Address address = Address.newBuilder().setCity("北京").setStreetAddress("长安街").setState("北京").
                 setCountry("中国").setZipCode("10001").build();
         CreditCardInfo cardInfo = CreditCardInfo.newBuilder().setCreditCardNumber("加密后").setCreditCardCvv(1246).
                 setCreditCardExpirationMonth(10).setCreditCardExpirationYear(2025).build();
-        CheckoutReq req = CheckoutReq.newBuilder().setUserId(1).setAddress(address).setEmail("testuser").setCreditCard(cardInfo).
+        CheckoutReq req = CheckoutReq.newBuilder().setUserId(2).setAddress(address).setEmail("testuser").setCreditCard(cardInfo).
                 setFirstname("二").setLastname("王").build();
-        StpUtil.login(1);
+        StpUtil.login(2);
         CheckoutResp checkout = checkoutService.checkout(req);
         log.info("success");
-        log.info("transactionId:{},orderId:{}",checkout.getTransactionId());
+        log.info("transactionId:{},orderId:{}", checkout.getTransactionId());
 
     }
 

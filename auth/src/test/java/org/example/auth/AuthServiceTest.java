@@ -17,24 +17,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class AuthServiceTest {
     @DubboReference(version = "1.0")
     private AuthService authService;
+
     @Test
     public void test_rpc_deliverToken() {
         DeliveryResp resp = authService.DeliverTokenByRPC(DeliverTokenReq.newBuilder().setUserId(1).build());
-        log.info("resp:{}",resp.getToken());
+        log.info("resp:{}", resp.getToken());
 
 
     }
+
     @Test
     public void test_rpc_verifyToken() {
         VerifyTokenReq req = VerifyTokenReq.newBuilder().setToken("c4ca4238a0b923820dcc509a6f75849b").build();
         boolean res = authService.VerifyTokenByRPC(req).getRes();
-        log.info("res:{}",res);
+        log.info("res:{}", res);
     }
 
     @Test
     public void test_rpc_null() {
         DeliverTokenReq req = DeliverTokenReq.newBuilder().build();
-        log.info("req null:{}",req.getUserId());
+        log.info("req null:{}", req.getUserId());
     }
 
 }

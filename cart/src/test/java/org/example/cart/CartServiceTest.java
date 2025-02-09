@@ -30,23 +30,27 @@ public class CartServiceTest {
         log.info("add item success ");
 
     }
+
     @Test
     public void test_rpc_emptyCart() {
         EmptyCartReq req = EmptyCartReq.newBuilder().setUserId(1).build();
         StpUtil.login(1);
         EmptyCartResp emptyCartResp = cartService.emptyCart(req);
-        log.info("empty item success from user {} ",req.getUserId());
+        log.info("empty item success from user {} ", req.getUserId());
 
     }
+
     @Test
     public void test_rpc_getCart() {
         GetCartReq req = GetCartReq.newBuilder().setUserId(1).build();
         StpUtil.login(1);
         GetCartResp resp = cartService.getCart(req);
         List<CartItem> itemsList = resp.getCart().getItemsList();
-        itemsList.forEach(item->{log.info("productId:{},quantity:{}",item.getProductId(),item.getQuantity());});
+        itemsList.forEach(item -> {
+            log.info("productId:{},quantity:{}", item.getProductId(), item.getQuantity());
+        });
 
-        log.info("getCart success from user {} ",req.getUserId());
+        log.info("getCart success from user {} ", req.getUserId());
 
     }
 }

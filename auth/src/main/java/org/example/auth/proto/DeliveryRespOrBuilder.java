@@ -4,18 +4,21 @@
 package org.example.auth.proto;
 
 public interface DeliveryRespOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:auth.DeliveryResp)
-    com.google.protobuf.MessageOrBuilder {
+        // @@protoc_insertion_point(interface_extends:auth.DeliveryResp)
+        com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <code>string token = 1;</code>
-   * @return The token.
-   */
-  String getToken();
-  /**
-   * <code>string token = 1;</code>
-   * @return The bytes for token.
-   */
-  com.google.protobuf.ByteString
-      getTokenBytes();
+    /**
+     * <code>string token = 1;</code>
+     *
+     * @return The token.
+     */
+    String getToken();
+
+    /**
+     * <code>string token = 1;</code>
+     *
+     * @return The bytes for token.
+     */
+    com.google.protobuf.ByteString
+    getTokenBytes();
 }

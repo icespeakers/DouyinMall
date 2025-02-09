@@ -35,65 +35,65 @@ public class ProductServiceImpl implements ProductService {
     @RequestMapping(value = "listProducts", method = RequestMethod.POST)
     @Override
     public ListProductsResp listProducts(ListProductsReq req) {
-        String RedisKey = "product:" + req.getPage()+req.getPageSize()+req.getCategoryName();
+        String RedisKey = "product:" + req.getPage() + req.getPageSize() + req.getCategoryName();
         //从缓存中获取
         Object redisProducts = redisTemplate.opsForValue().get(RedisKey);
-        List<Product> products=new ArrayList<>();
-        if(redisProducts==null){
+        List<Product> products = new ArrayList<>();
+        if (redisProducts == null) {
             log.info("product not found in redis");
-            if(StringUtils.isEmpty(req.getCategoryName())){
+            if (StringUtils.isEmpty(req.getCategoryName())) {
                 products = productDao.listProducts((int) ((req.getPage() - 1) * req.getPageSize()), req.getPageSize(), req.getCategoryName());
-                redisTemplate.opsForValue().set(RedisKey,products,60, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(RedisKey, products, 60, TimeUnit.SECONDS);
             }
-        }else{
+        } else {
             log.info("product found in redis");
             products = (List<Product>) redisProducts;
         }
 
 
         ListProductsResp.Builder builder = ListProductsResp.newBuilder();
-        for(int i=0;i<products.size();i++){
+        for (int i = 0; i < products.size(); i++) {
             org.example.product.proto.Product product = exchange(products.get(i));
             builder.addProducts(product);
         }
         return builder.build();
     }
+
     @RequestMapping(value = "getProduct", method = RequestMethod.POST)
     @Override
     public GetProductResp getProduct(GetProductReq req) {
         int ProductId = req.getId();
-        if(ProductId==0){
+        if (ProductId == 0) {
             throw new IllegalArgumentException("product not found");
         }
         //从缓存中获取
         org.example.product.proto.Product product;
         Object redisProduct = redisTemplate.opsForValue().get(PRODUCT_KEY + ProductId);
 
-        if(redisProduct==null){
+        if (redisProduct == null) {
             log.info("product not found in redis");
             Product pd = productDao.getProduct(ProductId);
             product = exchange(pd);
-            redisTemplate.opsForValue().set(PRODUCT_KEY + ProductId,product);
-        }else {
+            redisTemplate.opsForValue().set(PRODUCT_KEY + ProductId, product);
+        } else {
             log.info("product found in redis");
-            product=(org.example.product.proto.Product) redisProduct;
+            product = (org.example.product.proto.Product) redisProduct;
         }
-
-
 
 
         return GetProductResp.newBuilder().setProduct(product).build();
     }
+
     @RequestMapping(value = "searchProducts", method = RequestMethod.POST)
     @Override
     public SearchProductsResp searchProducts(SearchProductsReq req) {
         String query = req.getQuery();
-        if(StringUtils.isBlank(query)||query.length()==0){
+        if (StringUtils.isBlank(query) || query.length() == 0) {
             throw new IllegalArgumentException("query is null");
         }
         List<Product> products = productDao.searchProducts(query);
         SearchProductsResp.Builder builder = SearchProductsResp.newBuilder();
-        for(int i=0;i<products.size();i++){
+        for (int i = 0; i < products.size(); i++) {
             org.example.product.proto.Product product = exchange(products.get(i));
             builder.addResults(product);
         }
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    public org.example.product.proto.Product exchange(org.example.product.entity.Product product){
+    public org.example.product.proto.Product exchange(org.example.product.entity.Product product) {
         org.example.product.proto.Product ans = org.example.product.proto.Product.newBuilder()
                 .setId(product.getId())
                 .setName(product.getName())

@@ -5,6 +5,6 @@ import org.example.checkout.entity.CheckoutEntity;
 
 @Mapper
 public interface ICheckoutDao {
-//    checkout
+    //    checkout
     Integer checkout(CheckoutEntity checkoutEntity);
 }

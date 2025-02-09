@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.auth.dao.IAuthDao">
     <insert id="deliverToken">
-        insert into auths (user_id,token) values (#{userId},#{token})
+        insert into auths (user_id, token)
+        values (#{userId}, #{token})
     </insert>
     <select id="verifyToken" resultType="java.lang.Integer">
-        select count(1) from auths where token = #{token} and create_time > end_time
+        select count(1)
+        from auths
+        where token = #{token}
+          and create_time > end_time
     </select>
 </mapper>

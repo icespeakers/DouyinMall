@@ -4,12 +4,13 @@
 package org.example.auth.proto;
 
 public interface VerifyRespOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:auth.VerifyResp)
-    com.google.protobuf.MessageOrBuilder {
+        // @@protoc_insertion_point(interface_extends:auth.VerifyResp)
+        com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <code>bool res = 1;</code>
-   * @return The res.
-   */
-  boolean getRes();
+    /**
+     * <code>bool res = 1;</code>
+     *
+     * @return The res.
+     */
+    boolean getRes();
 }
