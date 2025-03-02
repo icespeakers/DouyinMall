@@ -90,8 +90,7 @@ public class OrderServiceImpl implements OrderService {
             items.add(item);
             orderDao.insertOrderItem(Orderid, orderItem);
         }
-//        Order order = builder.setOrderId(String.valueOf(orderId)).setAddress(address).setEmail(email).setUserId(userId)
-//                .setUserCurrency(userCurrency).setCreatedAt((int) System.currentTimeMillis()).build();
+
         return PlaceOrderResp.newBuilder().setOrder(OrderResult.newBuilder().setOrderId(String.valueOf(Orderid)).build()).build();
 
 

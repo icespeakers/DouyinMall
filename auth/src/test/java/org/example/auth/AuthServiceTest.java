@@ -28,7 +28,7 @@ public class AuthServiceTest {
 
     @Test
     public void test_rpc_verifyToken() {
-        VerifyTokenReq req = VerifyTokenReq.newBuilder().setToken("c4ca4238a0b923820dcc509a6f75849b").build();
+        VerifyTokenReq req = VerifyTokenReq.newBuilder().setToken("b5dfef55-cb76-4441-a536-a7f6224b01ae").build();
         boolean res = authService.VerifyTokenByRPC(req).getRes();
         log.info("res:{}", res);
     }

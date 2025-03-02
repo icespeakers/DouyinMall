@@ -66,7 +66,7 @@ public class OrderServiceTest {
 
     @Test
     public void test_rpc_markOrderPaid() {
-        MarkOrderPaidReq req = MarkOrderPaidReq.newBuilder().setOrderId("15").setUserId(1).build();
+        MarkOrderPaidReq req = MarkOrderPaidReq.newBuilder().setOrderId("17").setUserId(1).build();
         StpUtil.login(1);
         MarkOrderPaidResp markOrderPaidResp = orderService.markOrderPaid(req);
         // 输出结果

@@ -31,7 +31,7 @@ public class CheckServiceTest {
         StpUtil.login(2);
         CheckoutResp checkout = checkoutService.checkout(req);
         log.info("success");
-        log.info("transactionId:{},orderId:{}", checkout.getTransactionId());
+        log.info("transactionId:{}", checkout.getTransactionId());
 
     }
 

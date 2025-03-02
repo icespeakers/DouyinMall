@@ -54,10 +54,11 @@ public class UserServiceImpl implements UserService {
         }
 
         Integer userId = userDao.queryUserByEmailAndPassword(request.getEmail(), MD5(request.getPassword()));
-        StpUtil.login(userId);
+
         if (userId == null) {
             throw new IllegalArgumentException("登录失败!");
         }
+        StpUtil.login(userId);
         return LoginResp.newBuilder().setUserId(userId).build();
     }
 

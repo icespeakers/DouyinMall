@@ -24,8 +24,7 @@
             <result column="product_id" property="productId"/>
             <result column="quantity" property="quantity"/>
         </association>
-        <!--        <result column="product_id" property="item.productId"/>-->
-        <!--        <result column="quantity" property="item.quantity"/>-->
+
 
 
     </resultMap>

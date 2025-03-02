@@ -19,10 +19,10 @@ public class ApiTest {
     @DubboReference(version = "1.0")
     private UserService userService;
 
-    //    @Test
+//        @Test
 //    public void test_rpc_register() {
 //        RegisterReq req = RegisterReq.newBuilder()
-//                .setEmail("123456@qq.com")
+//                .setEmail("12345645687@qq.com")
 //                .setPassword("123456")
 //                .setConfirmPassword("123456")
 //                .build();

@@ -22,7 +22,7 @@ public class PaymentServiceTest {
     @Test
 
     public void test_rpc_charge() {
-        ChargeReq req = ChargeReq.newBuilder().setOrderId("10").setUserId(1).setAmount(25).
+        ChargeReq req = ChargeReq.newBuilder().setOrderId("17").setUserId(1).setAmount(25).
                 setCreditCard(CreditCardInfo.newBuilder().setCreditCardNumber("加密后").setCreditCardCvv(1246).
                         setCreditCardExpirationMonth(10).setCreditCardExpirationYear(2025).build()).build();
         StpUtil.login(1);
